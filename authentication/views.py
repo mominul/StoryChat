@@ -13,10 +13,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.models import User
-from chatbot.views import home_view
+from chatbot.views import home
 
 def login_page(request):
+    print("reached")
     if not request.user.is_authenticated:
+        print("r2")
         if request.method == 'POST':
             email = request.POST['email']
             password = request.POST['psw']
@@ -26,7 +28,7 @@ def login_page(request):
                 if user.check_password(password):
                     print("User logined")
                     login(request, user)
-                    return redirect(home_view)
+                    return redirect(home)
                 else:
                     # messages.error(request, "Incorrect password!")
                     print("Incorrect Paass")
@@ -35,7 +37,7 @@ def login_page(request):
                 return redirect('/signup')
 
         return render(request, 'login.html')
-
+    print("r4")
     return redirect('/')
 
 
