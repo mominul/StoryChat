@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .generate_orca_mini import generate_orc
 from .models import ChatHistory
+from .generate_kids_book_api import SpecalizedChatBot
+scb=SpecalizedChatBot()
 
 def welcome(request):
     if request.user.is_authenticated:
@@ -42,3 +44,12 @@ def chat_clear(request):
     user = request.user
     ChatHistory.objects.filter(user=user).delete()
     return redirect(home)
+
+def chat_story_api(request):
+    prompt=request.GET.get('prompt','')
+    pdf_content=scb.generate_response(prompt)
+    pdf_content=pdf_content.encode('latin-1')
+    response=HttpResponse(content_type='application/pdf')
+    response['Content-Disposition']='attachment; filename="file.pdf"'
+    response.write(pdf_content)
+    return response
