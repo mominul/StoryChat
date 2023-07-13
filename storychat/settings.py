@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'chatbot',
     'authentication',
     'bookshelf',
+    'stories',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

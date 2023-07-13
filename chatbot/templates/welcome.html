@@ -1,43 +1,60 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>StoryChat</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-    }
-    
-    .navbar {
-      background-color: blue;
-      padding: 10px;
-    }
-    
-    .navbar h1 {
-      color: white;
-      text-align: center;
-    }
-    
-    .buttons {
-      text-align: center;
-      margin-top: 20px;
-    }
-    
-    .buttons a button {
-      margin: 5px;
-      padding: 10px 20px;
-      font-size: 16px;
-    }
-  </style>
-</head>
-<body>
-  <div class="navbar">
-    <h1>Welcome to StoryChat</h1>
-  </div>
-  
-  <div class="buttons">
-    <a href="{% url 'login' %}"><button>Login</button></a>
-    <a href="{% url 'signup' %}"><button>Signup</button></a>
-  </div>
-</body>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoryChat</title>
+    <meta
+      name="description"
+      content="Just a pure semantic HTML markup, without .classes.  Built with Pico CSS."
+    />
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+    <script src="https://kit.fontawesome.com/3757fb324b.js" crossorigin="anonymous"></script>
+    <style>
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #f1f1f1;
+      }
+
+      .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      .welcome-text {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 2rem;
+        font-weight: bold;
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .button-container button {
+        margin: 0 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar">
+        <h1 class="welcome-text">Welcome to StoryChat</h1>
+      </nav>
+    </header>
+
+    <main class="container">
+      
+      <div class="button-container">
+        <a href="{% url 'login' %}"><button>Login</button></a>
+        <a href="{% url 'signup' %}"><button>Signup</button></a>
+      </div>
+    </main>
+  </body>
 </html>
