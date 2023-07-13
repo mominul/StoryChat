@@ -42,6 +42,8 @@
           <input type="file" id="file" name="file">
         </form>
         <button id="record-button" class="record-button">Record</button>
+        <a href="{% url 'add' %}"><button>Share your Story</button></a>
+        <br>
         <a href="{% url 'clear_chat' %}"><button class="send-button">Clear</button></a>
         {% comment %} <div class="grid">
           <div><button class="send-button">Ask</button></div>
