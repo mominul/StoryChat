@@ -13,6 +13,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.models import User
+from chatbot.views import home_view
 
 def login_page(request):
     if not request.user.is_authenticated:
@@ -23,60 +24,20 @@ def login_page(request):
             if User.objects.filter(email=email).exists():
                 user = User.objects.get(email=email)
                 if user.check_password(password):
+                    print("User logined")
                     login(request, user)
-                    return redirect('/home')
+                    return redirect(home_view)
                 else:
-                    messages.error(request, "Incorrect password!")
+                    # messages.error(request, "Incorrect password!")
+                    print("Incorrect Paass")
             else:
-                messages.error(request, "Unknown email, please sign up first!")
+                print("Unknown email, please sign up first!")
                 return redirect('/signup')
 
         return render(request, 'login.html')
 
-    return redirect('/home')
+    return redirect('/')
 
-
-# def login_page(request):
-#     if request.method == 'POST':
-#         email = request.POST['email']
-#         password = request.POST['psw']
-#         user = authenticate(request, email=email, password=password)
-
-#         if user is not None:
-#             # Authentication successful
-#             print("hi")
-#             login(request, user)
-#             return redirect('home')  # Redirect to the home page
-#         else:
-#             # Authentication failed
-#             print("invalid")
-#             error_message = "Invalid email or password. Please try again."
-#             return render(request, 'login.html', {'error_message': error_message})
-
-#     return render(request, 'login.html')
-
-# def login_page(request):
-    
-#     if not request.user.is_authenticated:      
-#         if request.method == 'POST':
-#             email = request.POST['email']
-#             password = request.POST['psw']
-#             user = authenticate(request, email=email, password=password)
-            
-#             if User.objects.filter(email=email).exists():
-#                 user = User.objects.get(email=email)
-#                 if user.check_password(password):
-#                     print(user)
-#                     login(request, user)
-#                     print("done")
-#                     return redirect('/home')
-#                 else:
-#                     messages.error(request, "Incorrect password!")
-#             else:
-#                 messages.error(request, "Unknown email, please signup first!")
-#                 return redirect('/login')
-
-#         return render(request, 'login.html')
 
 def logout_page(request):
     if request.user.is_authenticated:
@@ -96,16 +57,16 @@ def signup_view(request):
             password2 = request.POST['psw-repeat']
             
             if User.objects.filter(email=email):
-                messages.error(request, "Emali already registered!")
+                print("Emali already registered!")
                 return redirect('/signup')
                         
             if password1 != password2:
-                messages.error(request, "Password didn't match!")
+                print("Password didn't match!")
                 return redirect('/signup')
 
             newuser = User.objects.create_user(username, email, password1, first_name=fname, last_name=lname)
-            newuser.is_active = False
+            # newuser.is_active = False
             newuser.save()
-            messages.success(request, "Your Account has been successfully created.")
+            print("Your Account has been successfully created.")
             return redirect('/')
     return render(request, "signup.html")
