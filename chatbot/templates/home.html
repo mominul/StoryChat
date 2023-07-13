@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% comment %} <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" /> {% endcomment %}
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StoryChat</title>
     <meta
       name="description"
       content="Just a pure semantic HTML markup, without .classes.  Built with Pico CSS."
     />
-    <link rel="shortcut icon" href="https://picocss.com/favicon.ico" />
-    <link rel="canonical" href="https://picocss.com/examples/classless/" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+    {% comment %} <link rel="shortcut icon" href="https://picocss.com/favicon.ico" />
+    <link rel="canonical" href="https://picocss.com/examples/classless/" /> {% endcomment %}
+    {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" /> {% endcomment %}
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.css">
+    <script src="https://kit.fontawesome.com/3757fb324b.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
@@ -21,10 +24,11 @@
         </article>
         {% for item in history %}
         <article id="bot-message">
-          <header>
+          <h4>
             {{item.prompt}}
-          </header>
-          {{item.response}}
+          </h4>
+          <button class="fa-solid fa-volume-high" onclick="speakTest({{forloop.counter}})"></button>        
+          <p id="{{forloop.counter}}">{{item.response}}</p>
         </article>
         {% endfor %}
         
@@ -35,12 +39,80 @@
           <textarea id="chat" name= "chat" class="chat-input" placeholder="Type your message"></textarea>
           <input type="submit" value="Ask">
         </form>
-        <button class="send-button">Clear</button>
+        <button id="record-button" class="record-button">Record</button>
+        <a href="{% url 'clear_chat' %}"><button class="send-button">Clear</button></a>
         {% comment %} <div class="grid">
           <div><button class="send-button">Ask</button></div>
           <div><button class="send-button">Speak</button></div>
         </div> {% endcomment %}
       </section>
     </main>
+
+    <script>
+      // Select the necessary elements
+      const chatInput = document.querySelector('.chat-input');
+      const recordButton = document.getElementById('record-button');
+
+      // Initialize SpeechRecognition object
+      const recognition = new (window.SpeechRecognition ||
+        window.webkitSpeechRecognition ||
+        window.mozSpeechRecognition ||
+        window.msSpeechRecognition)();
+
+      // Set the properties for speech recognition
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      var clicked = false
+      // Event listener for the record button
+      recordButton.addEventListener('click', () => {
+        if (!clicked) {
+          // Start speech recognition
+          recognition.start();
+          console.log("Started");
+          clicked=true;
+        } else {
+          var res = recognition.stop();
+          // const reply = event.results[0][0].transcript;
+          console.log("Ended");
+          clicked=false;
+        }
+        
+      });
+
+      // Event listener for the speech recognition result
+      recognition.addEventListener('result', (event) => {
+        console.log("Got Result");
+        const speechResult = event.results[0][0].transcript;
+        chatInput.value += speechResult;
+      });
+      var speak = false;
+      var synthesis = window.speechSynthesis;
+      function speakTest(id) {
+        if(!speak) {
+          speak = true;
+          var para = document.getElementById(id).textContent
+          // Check if the browser supports the SpeechSynthesis API
+          //if ('speechSynthesis' in window) {
+              //var synthesis = window.speechSynthesis;
+              var utterance = new SpeechSynthesisUtterance(para);
+
+              // Optional: Set the voice and other speech properties
+              // Uncomment the lines below to customize the voice and properties
+              // var voices = synthesis.getVoices();
+              // utterance.voice = voices[0]; // Change index to use a different voice
+              // utterance.rate = 1.0; // Speech rate (0.1 to 10)
+              // utterance.pitch = 1.0; // Speech pitch (0 to 2)
+
+              synthesis.speak(utterance);
+          //} else {
+              //alert('Sorry, your browser doesn\'t support the SpeechSynthesis API.');
+          //}
+        } else {
+          synthesis.cancel()
+          speak = false;
+        }
+      }
+    </script>
   </body>
 </html>

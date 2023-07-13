@@ -26,3 +26,7 @@ def home(request):
     }
 
     return render(request, 'home.html', data)
+
+def chat_clear(request):
+    ChatHistory.objects.all().delete()
+    return redirect("/")

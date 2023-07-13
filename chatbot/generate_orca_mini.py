@@ -29,16 +29,15 @@ from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain import PromptTemplate, LLMChain
 def generate_orc(question):
     template="""
-    ### System:
-    You are an AI assistant that follows instruction extremely well. Help as much as you can.
+	Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request in 100 words.
 
-    ### User:
-    {question}
+	### Instruction:
+	Instruction
 
-    ### Input:
-    input
+	### Input:
+	{question}
 
-    ### Response:
+	### Response:
 
     """
 
