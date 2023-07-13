@@ -18,9 +18,10 @@
 
   <body>
     <main class="container">
+      <a href="{% url 'logout' %}"><button>Logout</button></a>
       <section id="chat-messages">
         <article id="user-message">
-          <div class="message-bubble">Hello, how can I assist you?</div>
+          <div class="message-bubble">Hello, {{name}} how can I assist you?</div>
         </article>
         {% for item in history %}
         <article id="bot-message">
