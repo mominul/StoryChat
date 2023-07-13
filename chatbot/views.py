@@ -1,9 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-# from rest_framework.parsers import JSONParser
-# from chatbot.models import Snippet
-# from chatbot.serializers import SnippetSerializer
+from .generate_orca_mini import generate_orc
+from .models import ChatHistory
 
 def home(request):
-    return render(request, 'home.html')
+    if request.POST:
+        chat = request.POST["chat"]
+        response = generate_orc(chat).removeprefix("1. ")
+        history = ChatHistory(prompt=chat, response=response)
+        history.save()
+        print(response)
+        return redirect("/")
+    
+    history = ChatHistory.objects.all()
+    print()
+    items = []
+    for item in history:
+        items.append({
+            "prompt": item.prompt,
+            "response": item.response,
+        })
+    data = {
+        "history": items,
+    }
+
+    return render(request, 'home.html', data)

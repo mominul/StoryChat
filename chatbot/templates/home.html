@@ -3,35 +3,44 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Classless example • Pico.css</title>
+    <title>StoryChat</title>
     <meta
       name="description"
       content="Just a pure semantic HTML markup, without .classes.  Built with Pico CSS."
     />
     <link rel="shortcut icon" href="https://picocss.com/favicon.ico" />
     <link rel="canonical" href="https://picocss.com/examples/classless/" />
-
-    <!-- Pico.css (Classless version) -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
   </head>
 
   <body>
-    <div class="chat-container">
-      <div id="chat-messages">
+    <main class="container">
+      <section id="chat-messages">
         <article id="user-message">
-          <img class="profile-pic" src="user-pic.jpg" alt="User Profile Pic" />
           <div class="message-bubble">Hello, how can I assist you?</div>
         </article>
+        {% for item in history %}
         <article id="bot-message">
-          <img class="profile-pic" src="bot-pic.jpg" alt="Bot Profile Pic" />
-          <div class="message-bubble">Welcome! How can I help you today?</div>
-        </div>
-      </article>
-      <textarea class="chat-input" placeholder="Type your message"></textarea>
-      <button class="send-button">Send</button>
-    </div>
+          <header>
+            {{item.prompt}}
+          </header>
+          {{item.response}}
+        </article>
+        {% endfor %}
+        
+      </section>
+      <section>
+        <form action="" method="post">
+          {% csrf_token %}
+          <textarea id="chat" name= "chat" class="chat-input" placeholder="Type your message"></textarea>
+          <input type="submit" value="Ask">
+        </form>
+        <button class="send-button">Clear</button>
+        {% comment %} <div class="grid">
+          <div><button class="send-button">Ask</button></div>
+          <div><button class="send-button">Speak</button></div>
+        </div> {% endcomment %}
+      </section>
+    </main>
   </body>
 </html>
