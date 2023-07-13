@@ -18,9 +18,10 @@
 
   <body>
     <main class="container">
+      <a href="{% url 'logout' %}"><button>Logout</button></a>
       <section id="chat-messages">
         <article id="user-message">
-          <div class="message-bubble">Hello, how can I assist you?</div>
+          <div class="message-bubble">Hello, {{name}} how can I assist you?</div>
         </article>
         {% for item in history %}
         <article id="bot-message">
@@ -34,10 +35,11 @@
         
       </section>
       <section>
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           <textarea id="chat" name= "chat" class="chat-input" placeholder="Type your message"></textarea>
           <input type="submit" value="Ask">
+          <input type="file" id="file" name="file">
         </form>
         <button id="record-button" class="record-button">Record</button>
         <a href="{% url 'clear_chat' %}"><button class="send-button">Clear</button></a>
@@ -47,7 +49,8 @@
         </div> {% endcomment %}
       </section>
     </main>
-
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js'></script>
+   
     <script>
       // Select the necessary elements
       const chatInput = document.querySelector('.chat-input');
@@ -113,6 +116,38 @@
           speak = false;
         }
       }
+      const imageSelector = document.getElementById('file');
+      const recognizedText = document.getElementById('recognized-text');
+
+  imageSelector.addEventListener('change', () => {
+    const file = imageSelector.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    const ext = file.name.split('.').pop().toLowerCase();
+
+    if (ext === 'txt') {
+      const reader = new FileReader();
+      reader.onload = () => {
+          chatInput.value+=reader.result
+      };
+      reader.readAsText(file);
+    } else if (ext === 'jpg' || ext === 'jpeg' || ext === 'png') {
+    Tesseract.recognize(
+      file,
+      'eng',
+      { logger: m => console.log(m) }
+    ).then(({ data: { text } }) => {
+      chatInput.value += text;
+    });
+    }
+    else{
+      alert("Invalid file")
+    }
+  });
+
     </script>
   </body>
 </html>
