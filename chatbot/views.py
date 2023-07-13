@@ -19,10 +19,10 @@ def home(request):
         response = generate_orc(chat).removeprefix("1. ")
         history = ChatHistory(prompt=chat, response=response)
         history.save()
-        print(response)
-        return redirect("/")
+        history.user.add(user)
+        return redirect(home)
     
-    history = ChatHistory.objects.all()
+    history = ChatHistory.objects.filter(user=user)
     print()
     items = []
     for item in history:
@@ -38,5 +38,6 @@ def home(request):
     return render(request, 'home.html', data)
 
 def chat_clear(request):
-    ChatHistory.objects.all().delete()
-    return redirect("/")
+    user = request.user
+    ChatHistory.objects.filter(user=user).delete()
+    return redirect(home)
