@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>StoryChat</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    
+    .navbar {
+      background-color: blue;
+      padding: 10px;
+    }
+    
+    .navbar h1 {
+      color: white;
+      text-align: center;
+    }
+    
+    .buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .buttons a button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h1>Welcome to StoryChat</h1>
+  </div>
+  
+  <div class="buttons">
+    <a href="{% url 'login' %}"><button>Login</button></a>
+    <a href="{% url 'signup' %}"><button>Signup</button></a>
+  </div>
+</body>
+</html>

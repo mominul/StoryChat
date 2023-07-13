@@ -4,6 +4,9 @@ from django.views.decorators.csrf import csrf_exempt
 from .generate_orca_mini import generate_orc
 from .models import ChatHistory
 
+def welcome(request):
+    return render(request,'welcome.html')
+
 def home(request):
     if request.POST:
         chat = request.POST["chat"]
