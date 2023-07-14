@@ -1,1 +1,74 @@
-{{data}}
+<style>
+    /* Global styles */
+    body {
+      background-color: #1f1f1f;
+      color: #fff;
+      text-align: center;
+      padding-top: 20px;
+    }
+  
+    /* Book list title */
+    .book-list-title {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+  
+    /* Book item styles */
+    .book-item {
+      background-color: #333;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      display: inline-block;
+      text-align: left;
+    }
+  
+    .book-item h2 {
+      color: #fff;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+  
+    .book-item p {
+      margin-bottom: 10px;
+    }
+  
+    .book-item a {
+      color: #bbb;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+  
+    .book-item a:hover {
+      color: #fff;
+    }
+  
+    .book-item ul {
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+  
+    .book-item li {
+      color: #bbb;
+      margin-bottom: 3px;
+    }
+  </style>
+  
+  <h2 class="book-list-title">Book List</h2>
+  
+  {% for item in data %}
+    <div class="book-item">
+      <h2>{{ item.fields.title }}</h2>
+      <p>{{ item.fields.description }}</p>
+      {% if item.fields.pdf %}
+        <a href="{{ item.fields.pdf }}">Download PDF</a>
+      {% endif %}
+      <p>Authors:</p>
+      <ul>
+        {% for author_id in item.fields.authors %}
+          <li>{{ author_id }}</li> <!-- Replace with author's name or details if available -->
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+  

@@ -37,5 +37,8 @@ def add(request):
 
 def display_books(request):
     respond_data=requests.get(url_data)
-    print(respond_data)
-    return render(request,'view.html',data={'data':respond_data})
+    data=None
+    if respond_data.status_code==200:
+        json_data=respond_data.json()
+        data=json_data
+    return render(request,'view.html',{'data':data})
