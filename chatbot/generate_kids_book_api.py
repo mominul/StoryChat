@@ -39,14 +39,7 @@ class SpecalizedChatBot:
         result=self.llm_chain.run(question)
         self.pdf_gen.add_page()
         self.pdf_gen.set_font('Arial', 'B', 8)
-        words = result.split()
-        new_string = ""
-        for i, word in enumerate(words):
-            new_string += word + " "
-            if (i + 1) % 10 == 0:
-                new_string += "\n"
-        result=new_string
-        self.pdf_gen.cell(0, 0, result)
+        self.pdf_gen.multi_cell(0, 10, result)
 
         pdf_string=self.pdf_gen.output("random", 'S')
         print(pdf_string)

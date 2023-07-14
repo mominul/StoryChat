@@ -19,14 +19,7 @@ def add(request):
         description = request.POST["description"]
         pdf_gen.add_page()
         pdf_gen.set_font('Arial', 'B', 8)
-        words = data.split()
-        new_string = ""
-        for i, word in enumerate(words):
-            new_string += word + " "
-            if (i + 1) % 10 == 0:
-                new_string += "\n"
-        result=new_string
-        pdf_gen.cell(0, 0, result)
+        pdf_gen.multi_cell(0, 10, data)
 
         pdf_content=pdf_gen.output("random", 'S')
         pdf_content=pdf_content.encode('latin-1')
