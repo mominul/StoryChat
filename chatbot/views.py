@@ -32,7 +32,10 @@ def home(request):
             "prompt": item.prompt,
             "response": item.response,
         })
-    request.session["data"] = items[-1]["response"]
+    try:
+        request.session["data"] = items[-1]["response"]
+    except:
+        request.session["data"] = ""
     data = {
         "name": user.first_name,
         "history": items,
