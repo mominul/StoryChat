@@ -61,7 +61,7 @@
       <h2>{{ item.fields.title }}</h2>
       <p>{{ item.fields.description }}</p>
       {% if item.fields.pdf %}
-        <a href="{{ item.fields.pdf }}">Download PDF</a>
+        <a href="/media/{{ item.fields.pdf }}">Download PDF</a>
       {% endif %}
       <p>Authors:</p>
       <ul>
