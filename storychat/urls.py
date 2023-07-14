@@ -6,6 +6,9 @@ from bookshelf.views import books_list, books_detail, search_book
 from chatbot.views import home, chat_clear, welcome, chat_story_api
 from stories.views import add
 from stories.views import display_books
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('', welcome, name='welcome'),
     path('home/', home, name='home'),
@@ -21,4 +24,4 @@ urlpatterns = [
     path('download/', chat_story_api),
     path('display_books/',display_books),
     path('search', search_book, name='search' )
-]
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
