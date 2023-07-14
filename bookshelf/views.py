@@ -7,11 +7,20 @@ import json
 
 def search_book(request):
     if request.method == 'POST':
-        title = request.POST['title']
+        title = request.POST.get('title')
         results = Books.objects.filter(title__icontains=title)
-        return render(request, 'search_results.html', {'results': results})
+        books_data = serializers.serialize('json', results)
+        return JsonResponse(books_data, safe=False)
     else:
         return render(request, 'search_book.html')
+
+# def search_book(request):
+#     if request.method == 'POST':
+#         title = request.POST['title']
+#         results = Books.objects.filter(title__icontains=title)
+#         return render(request, 'search_results.html', {'results': results})
+#     else:
+#         return render(request, 'search_book.html')
     
 
 @csrf_exempt ## To exempt from default requirement for CSRF tokens to use postman
